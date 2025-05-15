@@ -1,0 +1,12 @@
+[
+  {"input": "Step 1: Analyze the requirements for a new authentication module.", "target": "Identify user roles, security needs, and integration points."},
+  {"input": "Step 2: Design a database schema for user management.", "target": "Create tables for users, roles, permissions, and audit logs."},
+  {"input": "Step 3: Implement error handling for API endpoints.", "target": "Return clear error messages and use try/except blocks."},
+  {"input": "Step 4: Generate pytest tests for agents.py.", "target": "Write tests for Agent class methods and edge cases."},
+  {"input": "Step 5: Analyze project dependencies and create requirements.txt.", "target": "List all imports and pin versions for each package."},
+  {"input": "Step 6: Plan a five-phase launch strategy for a biosensor startup.", "target": "Phases: R&D, prototyping, regulatory, pilot, scale-up."},
+  {"input": "Step 7: Summarize the main findings of the report.", "target": "Highlight key results, conclusions, and recommendations."},
+  {"input": "Step 8: Provide a focused response for: 'Optimize memory usage.'", "target": "Use efficient data structures and monitor RAM usage."},
+  {"input": "Step 9: Generate pytest tests for orchestrator.py.", "target": "Test run_pipeline and error handling logic."},
+  {"input": "Step 10: Create a requirements.txt for a Python project.", "target": "Include all direct dependencies with version pins."}
+]

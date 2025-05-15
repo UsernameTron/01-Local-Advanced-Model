@@ -1,0 +1,16 @@
+{
+  "teacher_model": "microsoft/phi-2",
+  "student_model": "TinyLlama/TinyLlama-1.1B-Chat-v1.0",
+  "train_file": "dataset/executor_distillation_train.json",
+  "val_file": "dataset/executor_distillation_val.json",
+  "output_dir": "distill_output",
+  "export_dir": "executor-distilled",
+  "logging_dir": "distill_output/logs",
+  "batch_size": 2,
+  "grad_accum_steps": 8,
+  "epochs": 10,
+  "learning_rate": 2e-5,
+  "max_length": 128,
+  "temperature": 2.0,
+  "early_stopping_patience": 2
+}

@@ -1,0 +1,16 @@
+{
+  "dashboard": "local_o1_performance",
+  "metrics": [
+    "executor_response_time",
+    "pipeline_total_time",
+    "distilled_vs_original_performance",
+    "quality_validation_pass_rate"
+  ],
+  "history_file": "performance_history.json",
+  "refresh_interval_seconds": 60,
+  "visualizations": [
+    "line_chart",
+    "bar_chart",
+    "html_report"
+  ]
+}

@@ -1,0 +1,4 @@
+[
+  {"input": "Step 1: Plan a code review process for a new feature.", "target": "Define reviewers, checklist, and merge criteria."},
+  {"input": "Step 2: Generate pytest tests for prompts.py.", "target": "Test prompt templates and edge cases."}
+]

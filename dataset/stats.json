@@ -1,0 +1,8 @@
+{
+  "train_count": 10,
+  "val_count": 2,
+  "max_response_tokens": 12,
+  "domains": ["planning", "code generation", "dependency analysis", "summarization"],
+  "train_file_size_kb": 2,
+  "val_file_size_kb": 1
+}

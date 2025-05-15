@@ -1,0 +1,27 @@
+{
+  "workflow_templates": {
+    "simple": {
+      "max_executors": 1,
+      "agents": ["executor", "summarizer"],
+      "parallel": false
+    },
+    "medium": {
+      "max_executors": 3,
+      "agents": ["executor", "summarizer"],
+      "parallel": true
+    },
+    "complex": {
+      "max_executors": 5,
+      "agents": ["executor", "summarizer", "test_generator", "dependency_agent"],
+      "parallel": true
+    }
+  },
+  "resource_limits": {
+    "max_total_executors": 8,
+    "max_ram_gb": 48
+  },
+  "feedback": {
+    "enable_feedback_loop": true,
+    "quality_threshold": 0.9
+  }
+}
