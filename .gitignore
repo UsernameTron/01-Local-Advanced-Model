@@ -1,0 +1,58 @@
+# Python cache and build artifacts
+__pycache__/
+*.py[cod]
+*.so
+*.pyd
+*.pyo
+*.egg-info/
+build/
+dist/
+
+# Virtual environments
+venv/
+.env/
+.venv/
+
+# Model binaries and vector indexes
+*.bin
+*.pt
+*.pth
+*.ckpt
+vector_memory.index
+vector_memory_meta.json
+*.onnx
+*.npz
+*.h5
+
+# Logs, output, and benchmark results
+logs/
+output/
+benchmark_results.json
+*.log
+*.tmp
+
+# IDE-specific files
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Test outputs
+*.coverage
+htmlcov/
+.coverage*
+
+# Ollama and distillation directories
+ollama/
+distill_*/
+
+# Dashboard and memory exports
+*.export.json
+*.export.csv
+*.export.txt
+*.ipynb_checkpoints/
+
+# Dataset artifacts
+dataset/*.json
+!dataset/README.md

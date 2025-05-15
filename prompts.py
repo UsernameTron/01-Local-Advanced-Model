@@ -31,3 +31,7 @@ and create a requirements.txt file with:
 
 Return only the requirements.txt content.
 """
+
+IMAGE_CAPTION_PROMPT = "Describe the content and context of this image."
+AUDIO_TRANSCRIBE_PROMPT = "Transcribe the following audio and summarize its main points."
+MULTIMODAL_REASONING_PROMPT = "Given the following text, image, and audio, provide a comprehensive analysis."

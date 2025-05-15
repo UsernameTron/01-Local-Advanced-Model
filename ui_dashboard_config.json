@@ -1,0 +1,8 @@
+{
+  "refresh_interval": 3,
+  "max_history": 100,
+  "show_vector_memory": true,
+  "privacy_controls": true,
+  "default_port": 8501,
+  "server.headless": false
+}

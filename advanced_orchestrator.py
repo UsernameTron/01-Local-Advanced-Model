@@ -7,7 +7,7 @@ from vector_memory import vector_memory
 with open('orchestration_config.json') as f:
     config = json.load(f)
 
-def run_advanced_pipeline(task):
+def run_advanced_pipeline(task, image_path=None, audio_path=None):
     total_start = time.time()
     complexity = analyze_task_complexity(task)
     template = config['workflow_templates'][complexity]
@@ -15,6 +15,22 @@ def run_advanced_pipeline(task):
     parallel = template['parallel']
     agents_to_use = template['agents']
     print(f"[Orchestrator] Task complexity: {complexity}, Executors: {max_executors}, Parallel: {parallel}")
+
+    multimodal_result = None
+    if image_path:
+        from agents import ImageAgent
+        img_agent = ImageAgent()
+        multimodal_result = img_agent.caption(image_path)
+        vector_memory.add_image(image_path, multimodal_result)
+    if audio_path:
+        from agents import AudioAgent
+        audio_agent = AudioAgent()
+        audio_text = audio_agent.transcribe(audio_path)
+        multimodal_result = audio_text
+        vector_memory.add_audio(audio_path, audio_text)
+    if multimodal_result:
+        # Combine with text task if both present
+        task = f"{task}\n[Image/Audio context]: {multimodal_result}"
 
     # Memory retrieval before agent execution
     cached = vector_memory.retrieve(task)

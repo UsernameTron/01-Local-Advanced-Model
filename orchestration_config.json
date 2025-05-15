@@ -14,6 +14,12 @@
       "max_executors": 5,
       "agents": ["executor", "summarizer", "test_generator", "dependency_agent"],
       "parallel": true
+    },
+    "multimodal": {
+      "max_executors": 2,
+      "parallel": true,
+      "agents": ["ceo", "executor", "image_agent", "audio_agent"],
+      "description": "Handles tasks with text, image, and audio inputs."
     }
   },
   "resource_limits": {

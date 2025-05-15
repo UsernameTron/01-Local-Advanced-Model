@@ -1,0 +1,14 @@
+[Unit]
+Description=Local O1 Streamlit Dashboard
+After=network.target
+
+[Service]
+Type=simple
+User=YOUR_USER
+WorkingDirectory=/path/to/local_o1
+ExecStart=/path/to/local_o1/venv/bin/streamlit run ui_dashboard.py --server.port 8501 --server.headless false
+Restart=on-failure
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target

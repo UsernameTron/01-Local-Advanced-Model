@@ -1,0 +1,12 @@
+[Unit]
+Description=Ollama LLM Service
+After=network.target
+
+[Service]
+Type=simple
+User=YOUR_USER
+ExecStart=ollama serve
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

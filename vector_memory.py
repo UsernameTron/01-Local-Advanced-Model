@@ -7,6 +7,8 @@ from transformers import AutoTokenizer, AutoModel
 import torch
 import threading
 import time
+from PIL import Image
+import torchaudio
 
 # Config
 VECTOR_DIM = 384  # e.g., MiniLM
@@ -60,6 +62,32 @@ class VectorMemory:
             self.meta.append(entry)
             self._save()
 
+    def add_image(self, image_path, output, meta=None, sensitive=False, agent=None):
+        if sensitive:
+            return
+        if agent is None:
+            from agents import ImageAgent
+            agent = ImageAgent()
+        emb = agent.embed_image(image_path)
+        with self.lock:
+            self.index.add(emb)
+            entry = {'image_path': image_path, 'output': output, 'meta': meta or {}, 'timestamp': time.time(), 'type': 'image'}
+            self.meta.append(entry)
+            self._save()
+
+    def add_audio(self, audio_path, output, meta=None, sensitive=False, agent=None):
+        if sensitive:
+            return
+        if agent is None:
+            from agents import AudioAgent
+            agent = AudioAgent()
+        emb = agent.embed_audio(audio_path)
+        with self.lock:
+            self.index.add(emb)
+            entry = {'audio_path': audio_path, 'output': output, 'meta': meta or {}, 'timestamp': time.time(), 'type': 'audio'}
+            self.meta.append(entry)
+            self._save()
+
     def retrieve(self, prompt: str, top_k=1, sim_threshold=0.85) -> Optional[str]:
         emb = self.embed(prompt)
         with self.lock:
@@ -76,6 +104,30 @@ class VectorMemory:
             else:
                 self.cache_stats['misses'] += 1
                 return None
+
+    def retrieve_image(self, image_path, top_k=1, agent=None):
+        if agent is None:
+            from agents import ImageAgent
+            agent = ImageAgent()
+        emb = agent.embed_image(image_path)
+        with self.lock:
+            if self.index.ntotal == 0:
+                return None
+            D, I = self.index.search(emb, top_k)
+            idx = I[0][0]
+            return self.meta[idx]['output'] if self.meta[idx]['type'] == 'image' else None
+
+    def retrieve_audio(self, audio_path, top_k=1, agent=None):
+        if agent is None:
+            from agents import AudioAgent
+            agent = AudioAgent()
+        emb = agent.embed_audio(audio_path)
+        with self.lock:
+            if self.index.ntotal == 0:
+                return None
+            D, I = self.index.search(emb, top_k)
+            idx = I[0][0]
+            return self.meta[idx]['output'] if self.meta[idx]['type'] == 'audio' else None
 
     def prune(self):
         # Remove entries older than PRUNE_AGE_DAYS or if disk usage exceeds limit
