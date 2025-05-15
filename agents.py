@@ -1,6 +1,10 @@
 from ollama import Client
 from config import CEO_MODEL, FAST_MODEL, EXECUTOR_MODEL_ORIGINAL, EXECUTOR_MODEL_DISTILLED, USE_DISTILLED_EXECUTOR
 import time
+import torch
+from transformers import CLIPProcessor, CLIPModel, ViTImageProcessor, ViTModel, WhisperProcessor, WhisperForConditionalGeneration
+from PIL import Image
+import numpy as np
 
 class Agent:
     def __init__(self, name, model):
@@ -52,6 +56,34 @@ class ExecutorWithFallback(Agent):
             self.model = EXECUTOR_MODEL_ORIGINAL
             return super().run(prompt, retries, timeout)
         return output
+
+class ImageAgent:
+    def __init__(self, device=None):
+        self.device = device or ("mps" if torch.backends.mps.is_available() else "cpu")
+        self.model = CLIPModel.from_pretrained("openai/clip-vit-base-patch16").to(self.device)
+        self.processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch16")
+    def embed_image(self, image_path):
+        image = Image.open(image_path).convert("RGB")
+        inputs = self.processor(images=image, return_tensors="pt").to(self.device)
+        with torch.no_grad():
+            emb = self.model.get_image_features(**inputs)
+        return emb.cpu().numpy().astype('float32')
+    def caption(self, image_path, prompt="Describe this image."):
+        # Placeholder: can be extended with BLIP or similar for captioning
+        return "[Image captioning not implemented]"
+
+class AudioAgent:
+    def __init__(self, device=None):
+        self.device = device or ("mps" if torch.backends.mps.is_available() else "cpu")
+        self.model = WhisperForConditionalGeneration.from_pretrained("openai/whisper-tiny").to(self.device)
+        self.processor = WhisperProcessor.from_pretrained("openai/whisper-tiny")
+    def transcribe(self, audio_path):
+        import torchaudio
+        waveform, sr = torchaudio.load(audio_path)
+        inputs = self.processor(waveform.squeeze().numpy(), sampling_rate=sr, return_tensors="pt").to(self.device)
+        with torch.no_grad():
+            predicted_ids = self.model.generate(inputs["input_features"])
+        return self.processor.batch_decode(predicted_ids, skip_special_tokens=True)[0]
 
 def create_summarizer(): return Agent('Summarizer', CEO_MODEL)
 def create_test_generator(): return TestGeneratorAgent('TestGenerator', CEO_MODEL)
