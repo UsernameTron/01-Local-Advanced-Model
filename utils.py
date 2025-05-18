@@ -28,3 +28,5 @@ class OptimizedMemoryManager:
 
     def stop(self):
         self.running = False
+        if self.monitor_thread.is_alive():
+            self.monitor_thread.join()

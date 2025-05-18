@@ -219,3 +219,12 @@ with tabs[3]:
             st.text_area("Results", report, height=400)
 
 st.caption("Local O1 Dashboard | Real-time monitoring and orchestration | © 2025")
+
+def main():
+    import sys
+    from streamlit.web import cli as stcli
+    sys.argv = ["streamlit", "run", __file__] + sys.argv[1:]
+    sys.exit(stcli.main())
+
+if __name__ == "__main__":
+    main()
