@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "local-o1"
+version = "0.1.0"
+description = "Local O1 multi-agent orchestration system"
+requires-python = ">=3.10"
+dependencies = [
+    "streamlit",
+    "psutil",
+    "faiss-cpu",
+    "torch",
+    "transformers",
+    "sentence-transformers",
+    "requests",
+    "numpy",
+    "pillow",
+    "memory-profiler",
+    "pyvis",
+    "networkx",
+    "torchaudio",
+    "ollama",
+]
+
+[project.optional-dependencies]
+monitoring = ["matplotlib", "flask"]
+distillation = ["datasets"]
+
+[project.scripts]
+run-advanced-pipeline = "advanced_orchestrator:run_advanced_pipeline"
+local-o1-dashboard = "ui_dashboard:main"
